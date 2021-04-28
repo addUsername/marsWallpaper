@@ -1,5 +1,5 @@
 '''
-    This script should download the lastest mars photo made (priority drone>perseverance>curiosity) and use it as desktop background image.
+    This script should download the lastest mars photo made (priority = drone>perseverance>curiosity) and use it as desktop background image.
 
     TODO:
     - install guide
@@ -21,6 +21,7 @@
 
 import win32api, win32con, win32gui
 import request
+import PIL
 #----------------------------------------------------------------------
 def setWallpaper(path):
     key = win32api.RegOpenKeyEx(win32con.HKEY_CURRENT_USER,"Control Panel\\Desktop",0,win32con.KEY_SET_VALUE)
@@ -32,7 +33,12 @@ def downloadAndSave(path):
     # https://api.nasa.gov/mars-photos/api/v1/rovers?&api_key=DEMO_KEY
     pass
 
+def addLegend(path):
+    # https://stackoverflow.com/a/65139335/13771772
+    pass
+
 if __name__ == "__main__":
     path = r'C:\Users\Public\Pictures\img.jpg'
     downloadAndSaveImg(path)
+    addLegend(path)
     setWallpaper(path)
