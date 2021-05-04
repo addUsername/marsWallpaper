@@ -5,12 +5,6 @@
     - install guide
     - .bat for "run on start" thing
     - maybe wait for "connection ready" b4 fail (just ping google at lower rate each time)
-    - generate urls and download imgs
-    - add some legend to the photo (maybe PIL can do it) (no more needed libs will be awesome)
-    - on saturday pic a photo from weird camera (see this)
-    - on sudays pic a photo from inactive rover
-    - on fridays from curiosity
-
     - keep log, { images: [{date: ,url:}, {..
 
 
@@ -35,9 +29,9 @@ def getMaxSol(rover):
     return x["rover"]["max_sol"]
 
 
-def getInfo(sol, cameras):
+def getInfo(rover, sol, cameras):
     rd = randrange(len(cameras))
-    x = requests.get("https://api.nasa.gov/mars-photos/api/v1/rovers/perseverance/photos?camera="+cameras[rd]+"&sol="+str(sol)+"&api_key="+api_key).json()
+    x = requests.get("https://api.nasa.gov/mars-photos/api/v1/rovers/"+rover+"/photos?camera="+cameras[rd]+"&sol="+str(sol)+"&api_key="+api_key).json()
     return x["photos"]
 
 def downloadImg(url,path):
@@ -68,8 +62,8 @@ def waterMark(info, path):
 
 def isFriday():
     curiosity_cool_cameras = ["NAVCAM","RHAZ"]
-    max_sol = getMaxSol("perseverance")
-    return getInfo(sol = max_sol, cameras = curiosity_cool_cameras)
+    max_sol = getMaxSol("curiosity")
+    return getInfo(rover = "curiosity", sol = max_sol, cameras = curiosity_cool_cameras)
 
 def isSaturday():
     #none of these works.. :c )
@@ -85,7 +79,7 @@ def isSunday():
 def notWeekend():
     perseverance_normal_cameras = ["NAVCAM_RIGHT"]
     max_sol = getMaxSol("perseverance")
-    return getInfo(sol = max_sol, cameras = perseverance_normal_cameras)
+    return getInfo(rover = "perseverance", sol = max_sol, cameras = perseverance_normal_cameras)
 
 
 choose_photo = {
